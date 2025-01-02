@@ -1,7 +1,7 @@
 # Uber Clone Backend
 
 ## Description
-This backend service is designed for an Uber clone application. It includes user registration, authentication, and other related functionalities.
+This backend service is designed for an Uber clone application. It includes functionalities for user registration and authentication. The service is built using Node.js and Express, with MongoDB as the database. It uses JWT for authentication and bcrypt for password hashing.
 
 ## Data Requirements
 ### User
@@ -13,9 +13,11 @@ This backend service is designed for an Uber clone application. It includes user
 ## Endpoints
 
 ### Register User
-**URL:** `/register`
+**URL:** `/user/register`
 
 **Method:** `POST`
+
+**Description:** Registers a new user with the provided username, email, and password.
 
 **Request Body:**
 ```json
@@ -49,6 +51,53 @@ This backend service is designed for an Uber clone application. It includes user
         "location": "body"
       }
     ]
+  }
+  ```
+
+### Login User
+**URL:** `/user/login`
+
+**Method:** `POST`
+
+**Description:** Authenticates a user with the provided email and password.
+
+**Request Body:**
+```json
+{
+  "email": "user@example.com",
+  "password": "examplePassword"
+}
+```
+
+**Response:**
+- **Success (200):**
+  ```json
+  {
+    "token": "jwt_token_here",
+    "user": {
+      "_id": "user_id_here",
+      "username": "exampleUser",
+      "email": "user@example.com",
+      "socketId": "socket_id_here"
+    }
+  }
+  ```
+- **Error (400):**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "error_message_here",
+        "param": "field_name_here",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+- **Error (401):**
+  ```json
+  {
+    "error": "Invalid credentials"
   }
   ```
 
