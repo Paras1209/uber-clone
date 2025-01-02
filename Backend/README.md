@@ -226,6 +226,126 @@ This backend service is designed for an Uber clone application. It includes func
   }
   ```
 
+### Login Captain
+**URL:** `/captain/login`
+
+**Method:** `POST`
+
+**Description:** Authenticates a captain with the provided email and password.
+
+**Request Body:**
+```json
+{
+  "email": "captain@example.com",
+  "password": "examplePassword"
+}
+```
+
+**Response:**
+- **Success (200):**
+  ```json
+  {
+    "token": "jwt_token_here",
+    "captain": {
+      "_id": "captain_id_here",
+      "username": "exampleCaptain",
+      "email": "captain@example.com",
+      "socketId": "socket_id_here",
+      "status": "inactive",
+      "vehicle": {
+        "color": "red",
+        "plate": "ABC123",
+        "capacity": 4,
+        "vehicleType": "car"
+      },
+      "location": {
+        "latitude": null,
+        "longitude": null
+      }
+    }
+  }
+  ```
+- **Error (400):**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "error_message_here",
+        "param": "field_name_here",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+- **Error (401):**
+  ```json
+  {
+    "error": "Invalid credentials"
+  }
+  ```
+
+### Get Captain Profile
+**URL:** `/captain/profile`
+
+**Method:** `GET`
+
+**Description:** Retrieves the profile of the authenticated captain.
+
+**Headers:**
+- `Authorization`: Bearer `jwt_token_here`
+
+**Response:**
+- **Success (200):**
+  ```json
+  {
+    "_id": "captain_id_here",
+    "username": "exampleCaptain",
+    "email": "captain@example.com",
+    "socketId": "socket_id_here",
+    "status": "inactive",
+    "vehicle": {
+      "color": "red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    },
+    "location": {
+      "latitude": null,
+      "longitude": null
+    }
+  }
+  ```
+- **Error (401):**
+  ```json
+  {
+    "error": "Unauthorized"
+  }
+  ```
+
+### Logout Captain
+**URL:** `/captain/logout`
+
+**Method:** `GET`
+
+**Description:** Logs out the authenticated captain by blacklisting the JWT token.
+
+**Headers:**
+- `Authorization`: Bearer `jwt_token_here`
+
+**Response:**
+- **Success (200):**
+  ```json
+  {
+    "message": "Logged out successfully"
+  }
+  ```
+- **Error (401):**
+  ```json
+  {
+    "error": "Unauthorized"
+  }
+  ```
+
 ## Setup Instructions
 1. Clone the repository.
 2. Install dependencies using `npm install`.
