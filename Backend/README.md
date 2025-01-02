@@ -1,7 +1,7 @@
 # Uber Clone Backend
 
 ## Description
-This backend service is designed for an Uber clone application. It includes functionalities for user registration and authentication. The service is built using Node.js and Express, with MongoDB as the database. It uses JWT for authentication and bcrypt for password hashing.
+This backend service is designed for an Uber clone application. It includes functionalities for user registration, authentication, profile management, and logout. The service is built using Node.js and Express, with MongoDB as the database. It uses JWT for authentication and bcrypt for password hashing.
 
 ## Data Requirements
 ### User
@@ -101,6 +101,57 @@ This backend service is designed for an Uber clone application. It includes func
   }
   ```
 
+### Get Profile
+**URL:** `/user/profile`
+
+**Method:** `GET`
+
+**Description:** Retrieves the profile of the authenticated user.
+
+**Headers:**
+- `Authorization`: Bearer `jwt_token_here`
+
+**Response:**
+- **Success (200):**
+  ```json
+  {
+    "_id": "user_id_here",
+    "username": "exampleUser",
+    "email": "user@example.com",
+    "socketId": "socket_id_here"
+  }
+  ```
+- **Error (401):**
+  ```json
+  {
+    "error": "Unauthorized"
+  }
+  ```
+
+### Logout User
+**URL:** `/user/logout`
+
+**Method:** `GET`
+
+**Description:** Logs out the authenticated user by blacklisting the JWT token.
+
+**Headers:**
+- `Authorization`: Bearer `jwt_token_here`
+
+**Response:**
+- **Success (200):**
+  ```json
+  {
+    "message": "Logged out successfully"
+  }
+  ```
+- **Error (401):**
+  ```json
+  {
+    "error": "Unauthorized"
+  }
+  ```
+
 ## Setup Instructions
 1. Clone the repository.
 2. Install dependencies using `npm install`.
@@ -118,6 +169,7 @@ This backend service is designed for an Uber clone application. It includes func
 - `routes/`: Contains the user routes.
 - `services/`: Contains the user service.
 - `db/`: Contains the database connection file.
+- `middlewares/`: Contains the authentication middleware.
 
 ## Dependencies
 - `express`: Web framework for Node.js
@@ -126,3 +178,4 @@ This backend service is designed for an Uber clone application. It includes func
 - `bcrypt`: Library to hash passwords
 - `express-validator`: Middleware for validating request bodies
 - `dotenv`: Module to load environment variables
+- `cookie-parser`: Middleware to parse cookies
