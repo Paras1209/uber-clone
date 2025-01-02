@@ -6,6 +6,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDb = require("./db/db");
 const userRoute = require("./routes/user.route");
+const captainRoute = require("./routes/captain.routes");
 
 
 connectDb();
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 app.use(cors());
 app.use('/user' , userRoute);
+app.use('/captain' , captainRoute);
 
 
 app.listen(port , ()=>{

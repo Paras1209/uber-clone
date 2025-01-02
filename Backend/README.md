@@ -1,7 +1,7 @@
 # Uber Clone Backend
 
 ## Description
-This backend service is designed for an Uber clone application. It includes functionalities for user registration, authentication, profile management, and logout. The service is built using Node.js and Express, with MongoDB as the database. It uses JWT for authentication and bcrypt for password hashing.
+This backend service is designed for an Uber clone application. It includes functionalities for user and captain registration, authentication, profile management, and logout. The service is built using Node.js and Express, with MongoDB as the database. It uses JWT for authentication and bcrypt for password hashing.
 
 ## Data Requirements
 ### User
@@ -9,6 +9,21 @@ This backend service is designed for an Uber clone application. It includes func
 - `email`: String, required, unique, minimum length of 5 characters
 - `password`: String, required, minimum length of 5 characters
 - `socketId`: String, optional
+
+### Captain
+- `username`: String, required, minimum length of 3 characters
+- `email`: String, required, unique, minimum length of 5 characters
+- `password`: String, required, minimum length of 5 characters
+- `socketId`: String, optional
+- `status`: String, enum ["active", "inactive"], default "inactive"
+- `vehicle`: Object, required
+  - `color`: String, required, minimum length of 3 characters
+  - `plate`: String, required, minimum length of 3 characters
+  - `capacity`: Number, required, minimum 1
+  - `vehicleType`: String, required, enum ["car", "motorcycle", "auto"]
+- `location`: Object, optional
+  - `latitude`: Number
+  - `longitude`: Number
 
 ## Endpoints
 
@@ -152,6 +167,65 @@ This backend service is designed for an Uber clone application. It includes func
   }
   ```
 
+### Register Captain
+**URL:** `/captain/register`
+
+**Method:** `POST`
+
+**Description:** Registers a new captain with the provided username, email, password, and vehicle details.
+
+**Request Body:**
+```json
+{
+  "username": "exampleCaptain",
+  "email": "captain@example.com",
+  "password": "examplePassword",
+  "vehicle": {
+    "color": "red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+**Response:**
+- **Success (201):**
+  ```json
+  {
+    "captain": {
+      "_id": "captain_id_here",
+      "username": "exampleCaptain",
+      "email": "captain@example.com",
+      "socketId": "socket_id_here",
+      "status": "inactive",
+      "vehicle": {
+        "color": "red",
+        "plate": "ABC123",
+        "capacity": 4,
+        "vehicleType": "car"
+      },
+      "location": {
+        "latitude": null,
+        "longitude": null
+      }
+    },
+    "token": "jwt_token_here"
+  }
+  ```
+- **Error (400):**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "error_message_here",
+        "param": "field_name_here",
+        "location": "body"
+      }
+    ]
+  }
+  ```
+
 ## Setup Instructions
 1. Clone the repository.
 2. Install dependencies using `npm install`.
@@ -164,10 +238,10 @@ This backend service is designed for an Uber clone application. It includes func
 4. Start the server using `npm start`.
 
 ## Project Structure
-- `controllers/`: Contains the user controller.
-- `models/`: Contains the user model.
-- `routes/`: Contains the user routes.
-- `services/`: Contains the user service.
+- `controllers/`: Contains the user and captain controllers.
+- `models/`: Contains the user and captain models.
+- `routes/`: Contains the user and captain routes.
+- `services/`: Contains the user and captain services.
 - `db/`: Contains the database connection file.
 - `middlewares/`: Contains the authentication middleware.
 
