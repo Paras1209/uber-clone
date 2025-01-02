@@ -1,14 +1,23 @@
-const express = require("express");
 const dotnev = require("dotenv");
-
 dotnev.config();
 
+const express = require("express");
+const cors = require("cors");
+
+const connectDb = require("./db/db");
+const userRoute = require("./routes/user.route");
+
+
+connectDb();
 const app = express();
 const port = process.env.Port;
 
-app.get('/' , (req, res) =>{
-    res.send("hello ji");
-})
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
+
+
+app.use(cors());
+app.use('/' , userRoute);
 
 
 app.listen(port , ()=>{
